@@ -1,0 +1,27 @@
+<div class="col">
+  <div class="card h-100 text-center">
+    <h4 class="mt-4">{{job['title']}}</h4>
+    <div class="card-body mb-4">
+      <p class="card-text">
+        <b>Location : </b>
+        {{job['location']}}
+      </p>
+      {% if 'salary' in job %}
+      <div class="card-text">
+          <b>Salary : </b>
+        {{job['salary']}}
+      </div>
+      {% else %}
+      <div class="card-text">
+          <b>Salary : </b>
+        Not Mentioned
+      </div>
+      {% endif %}
+      </div>
+          <div class="card-footer text-center">
+            <button class="btn btn-outline-primary"> 
+              Apply 
+            </button>
+          </div>
+        </div>
+      </div>

@@ -26,7 +26,14 @@
       <h2 class="text-center mt-2 mb-4">
         Open Positions
       </h2>
-      <p>TODO-Show the Jobs Here</p>
+      <div 
+        class="row row-cols-1 row-cols-sm-2 row-cols-md-3               row-cols-lg-4 g-4 mt-4"
+        style="margin-bottom:50px;"
+        >
+      {% for job in jobs %}
+        {% include 'jobitem.html' %}
+      {% endfor %}
+      </div>
       <div class=text-center>
       <button class="btn btn-primary btn-lg">
         Contact Us
