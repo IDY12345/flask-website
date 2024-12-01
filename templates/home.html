@@ -15,7 +15,8 @@
     </style>
   </head>
   <body>
-    <div class="container">
+    {% include 'nav.html' %}
+    <div class="container mb-5">
       <h1 class="text-center mt-4 mb-4">Random Careers</h1>
       <img src="/static/career.jpg" alt="career" class="img-          fluid" id="banner"/>
       <h2 class="text-center mt-2 mb-4">About Random</h2>
@@ -38,8 +39,8 @@
       <button class="btn btn-primary btn-lg">
         Contact Us
       </button>
-        <p class="mt-4">Copyright @2024 Random</p>
       </div>
       </div>
+    {% include 'footer.html' %}
   </body>
 </html>
