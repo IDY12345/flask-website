@@ -24,65 +24,48 @@ class Job(db.Model):
 with app.app_context():
     db.create_all()
 
-JOBS = [
-    {
-        'id': 1,
-        'title': 'Data Analyst',
-        'location': 'Bengaluru, India',
-        'salary': 'Rs. 10,00,000'
-    },
-    {
-        'id': 2,
-        'title': 'Data Scientist',
-        'location': 'Delhi, India',
-        'salary': 'Rs. 15,00,000'
-    },
-    {
-        'id': 3,
-        'title': 'Frontend Engineer',
-        'location': 'Remote',
-        'salary': 'Rs. 12,00,000'
-    },
-    {
-        'id': 4,
-        'title': 'Backend Engineer',
-        'location': 'San Francisco,USA',
-        'salary': '$120,000'
-    },
-    {
-        'id': 1,
-        'title': 'Data Analyst',
-        'location': 'Bengaluru, India',
-    },
-    {
-        'id': 2,
-        'title': 'Data Scientist',
-        'location': 'Delhi, India',
-        'salary': 'Rs. 15,00,000'
-    },
-    {
-        'id': 3,
-        'title': 'Frontend Engineer',
-        'location': 'Remote',
-        'salary': 'Rs. 12,00,000'
-    },
-    {
-        'id': 4,
-        'title': 'Backend Engineer',
-        'location': 'San Francisco,USA',
-        'salary': '$120,000'
-    },
-]
+    if Job.query.count() == 0:
+        sample_jobs = [
+            {"title": "Data Analyst", "location": "Bengaluru,             India", "salary": "Rs. 10,00,000"},
+            {"title": "Data Scientist", "location": "Delhi,                 India", "salary": "Rs. 15,00,000"},
+            {"title": "Frontend Engineer", "location":                     "Remote", "salary": "Rs. 12,00,000"},
+            {"title": "Backend Engineer", "location": "San                 Francisco, USA", "salary": "$120,000"}
+        ]
+        for job in sample_jobs:
+            new_job = Job()  # Create an empty Job instance
+            new_job.title = job["title"]  # Set attributes directly
+            new_job.location = job["location"]
+            new_job.salary = job.get("salary")
+            db.session.add(new_job)
+            db.session.commit()
+            db.session.add(new_job)
+        db.session.commit()
+
 
 
 @app.route("/")
 def hello_world():
-    return render_template('home.html', jobs=JOBS)
+    jobs = Job.query.all() 
+    return render_template('home.html', jobs=jobs)
 
-
-@app.route("/api/jobs")
+@app.route("/api/jobs", methods=["GET", "POST"])
 def list_jobs():
-    return jsonify(JOBS)
+    if request.method == "POST":
+        # Add a new job
+        data = request.get_json()
+        new_job = Job()
+        new_job.title = data.get('title')
+        new_job.location = data.get('location')
+        new_job.salary = data.get('salary')
+        db.session.add(new_job)
+        db.session.commit()
+        return jsonify({"message": "Job added                               successfully!"}), 201
+
+    # Retrieve all jobs
+    jobs = Job.query.all()
+    result = [{"id": job.id, "title": job.title, "location":job.location, "salary": job.salary} for job in jobs]
+    return jsonify(result)
+
 
 
 if __name__ == '__main__':
